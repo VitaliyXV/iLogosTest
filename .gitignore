@@ -1,1 +1,5 @@
 *.meta
+Snake/Library/metadata/
+Snake/Library/Temp/
+Snake/obj/
+Snake/Temp/

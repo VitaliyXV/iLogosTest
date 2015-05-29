@@ -19,8 +19,11 @@ public class MainMenuContext : SignalContext
 
 		mediationBinder.Bind<MainMenuView>().To<MainMenuMediator>();
 
-		var manager = GameObject.Find("Manager").GetComponent<MainMenuManager>();
-		injectionBinder.Bind<IMainMenuManager>().ToValue(manager);
+		var manager = GameObject.Find("Manager").GetComponent<MainMenuController>();
+		injectionBinder.Bind<IMainMenuController>().ToValue(manager);
+
+		// inject serializer as singleton
+		injectionBinder.Bind<ISerializer>().To<XmlSerializator>().ToSingleton();
 	}
 
 	private void BindSignalsToCommands()
@@ -29,5 +32,6 @@ public class MainMenuContext : SignalContext
 		commandBinder.Bind<CameraSignal>().To<CameraCommand>().Pooled();
 		commandBinder.Bind<FieldTypeSignal>().To<FieldTypeCommand>().Pooled();
 		commandBinder.Bind<ExitSignal>().To<ExitCommand>().Pooled();
+		commandBinder.Bind<InputPlayerNameSignal>().To<InputPlayerNameCommand>().Pooled();
 	}
 }

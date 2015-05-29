@@ -2,8 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuManager : MonoBehaviour, IMainMenuManager
+public class MainMenuController : MonoBehaviour, IMainMenuController
 {
+	void Awake()
+	{
+		// load Player data from preferences
+		GameData.Player = LocalDataProvider.Instance.GetPlayer();
+	}
 	
 #region IMainMenuManager	
 
@@ -25,11 +30,19 @@ public class MainMenuManager : MonoBehaviour, IMainMenuManager
 		if (type >= Enum.GetNames(typeof(FieldType)).Length) type = 0;
 		GameData.CurrentFieldType = (FieldType)type;
 	}
+	
+	public void InputPlayerName(string name)
+	{
+		GameData.Player.Name = name;
+		LocalDataProvider.Instance.SavePlayer(GameData.Player);
+	}
 
 	public void Exit()
 	{
 		Debug.Log("Exit");
+		Application.Quit();
 	}
 
 #endregion
+	
 }

@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using strange.extensions.command.impl;
 
-public class ExitCommand : Command
+public class NewGameCommand : Command
 {
 	[Inject]
-	public IMainMenuManager manager { get; set; }
-
+	public IMainMenuController manager { get; set; }
+	
 	public override void Execute()
 	{
-		manager.Exit();
+		manager.StartNewGame();
 	}
 }

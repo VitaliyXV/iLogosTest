@@ -17,12 +17,16 @@ public class MainMenuMediator : Mediator
 	[Inject]
 	public ExitSignal exitSignal { get; set; }
 
+	[Inject]
+	public InputPlayerNameSignal inputPlayerNameSignal { get; set; }
+
 	public override void OnRegister()
 	{
 		mainMenuView.buttonNewGameClicked.AddListener(newGameSignal.Dispatch);
 		mainMenuView.buttonCameraClicked.AddListener(cameraSignal.Dispatch);
 		mainMenuView.buttonFieldTypeClicked.AddListener(fieldTypeSignal.Dispatch);
 		mainMenuView.buttonExitClicked.AddListener(exitSignal.Dispatch);
+		mainMenuView.inputPlayerNameChanged.AddListener(inputPlayerNameSignal.Dispatch);
 	}
 
 	public override void OnRemove()
@@ -31,5 +35,6 @@ public class MainMenuMediator : Mediator
 		mainMenuView.buttonCameraClicked.RemoveListener(cameraSignal.Dispatch);
 		mainMenuView.buttonFieldTypeClicked.RemoveListener(fieldTypeSignal.Dispatch);
 		mainMenuView.buttonExitClicked.RemoveListener(exitSignal.Dispatch);
+		mainMenuView.inputPlayerNameChanged.RemoveListener(inputPlayerNameSignal.Dispatch);
 	}
 }

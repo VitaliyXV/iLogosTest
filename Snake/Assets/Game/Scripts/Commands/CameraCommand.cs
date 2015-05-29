@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using strange.extensions.command.impl;
 
-public class NewGameCommand : Command
+public class CameraCommand : Command
 {
 	[Inject]
-	public IMainMenuManager manager { get; set; }
+	public IMainMenuController manager { get; set; }	
 
 	public override void Execute()
 	{
-		manager.StartNewGame();
+		manager.SwitchCamera();
 	}
 }

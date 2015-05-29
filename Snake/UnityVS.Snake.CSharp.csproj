@@ -54,17 +54,35 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Game.cs" />
-    <Compile Include="Assets\Scripts\GameState.cs" />
-    <Compile Include="Assets\Scripts\MainMenuController.cs" />
+    <ProjectReference Include="UnityVS.Snake.CSharp.Plugins.csproj">
+      <Project>{46B94D73-0FDE-6AD3-F9A9-AE1ECA58EF70}</Project>
+      <Name>UnityVS.Snake.CSharp.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Game\Scripts\Contexts\MainMenuBootstrap.cs" />
+    <Compile Include="Assets\Game\Scripts\Contexts\MainMenuContext.cs" />
+    <Compile Include="Assets\Game\Scripts\Contexts\SignalContext.cs" />
+    <Compile Include="Assets\Game\Scripts\Controllers\CameraCommand.cs" />
+    <Compile Include="Assets\Game\Scripts\Controllers\ExitCommand.cs" />
+    <Compile Include="Assets\Game\Scripts\Controllers\FieldTypeCommand.cs" />
+    <Compile Include="Assets\Game\Scripts\Controllers\GameSignals.cs" />
+    <Compile Include="Assets\Game\Scripts\Controllers\NewGameCommand.cs" />
+    <Compile Include="Assets\Game\Scripts\Views\MainMenuMediator.cs" />
+    <Compile Include="Assets\Game\Scripts\Views\MainMenuView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Plugins\StrangeIoC\LICENSE-2.0.txt" />
+    <None Include="Assets\Plugins\StrangeIoC\README.txt" />
+    <None Include="Assets\Plugins\StrangeIoC\examples\Assets\scripts\multiplecontexts\ReadMe.txt" />
+    <None Include="Assets\Plugins\StrangeIoC\examples\Assets\scripts\myfirstproject\ReadMe.txt" />
+    <None Include="Assets\Plugins\StrangeIoC\examples\Assets\scripts\signalsproject\ReadMe.txt" />
+    <None Include="Assets\Plugins\StrangeIoC\scripts\strange\extensions\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

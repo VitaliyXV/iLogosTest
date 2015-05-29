@@ -14,10 +14,13 @@ public class MainMenuContext : SignalContext
 	protected override void mapBindings()
 	{
 		base.mapBindings();
-
+		
 		BindSignalsToCommands();
 
 		mediationBinder.Bind<MainMenuView>().To<MainMenuMediator>();
+
+		var manager = GameObject.Find("Manager").GetComponent<MainMenuManager>();
+		injectionBinder.Bind<IMainMenuManager>().ToValue(manager);
 	}
 
 	private void BindSignalsToCommands()

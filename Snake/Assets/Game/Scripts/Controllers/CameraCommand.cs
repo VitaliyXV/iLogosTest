@@ -3,8 +3,11 @@ using strange.extensions.command.impl;
 
 public class CameraCommand : Command
 {
+	[Inject]
+	public IMainMenuManager manager { get; set; }	
+
 	public override void Execute()
 	{
-		Debug.Log("Camera type change");
+		manager.SwitchCamera();
 	}
 }

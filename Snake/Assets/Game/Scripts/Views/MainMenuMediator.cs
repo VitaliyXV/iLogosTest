@@ -24,4 +24,12 @@ public class MainMenuMediator : Mediator
 		mainMenuView.buttonFieldTypeClicked.AddListener(fieldTypeSignal.Dispatch);
 		mainMenuView.buttonExitClicked.AddListener(exitSignal.Dispatch);
 	}
+
+	public override void OnRemove()
+	{
+		mainMenuView.buttonNewGameClicked.RemoveListener(newGameSignal.Dispatch);
+		mainMenuView.buttonCameraClicked.RemoveListener(cameraSignal.Dispatch);
+		mainMenuView.buttonFieldTypeClicked.RemoveListener(fieldTypeSignal.Dispatch);
+		mainMenuView.buttonExitClicked.RemoveListener(exitSignal.Dispatch);
+	}
 }

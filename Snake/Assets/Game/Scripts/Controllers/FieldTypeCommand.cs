@@ -3,8 +3,11 @@ using strange.extensions.command.impl;
 
 public class FieldTypeCommand : Command
 {
+	[Inject]
+	public IMainMenuManager manager { get; set; }
+	
 	public override void Execute()
 	{
-		Debug.Log("Field type change");
+		manager.SwitchFieldType();
 	}
 }

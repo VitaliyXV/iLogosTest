@@ -102,6 +102,9 @@
     <Reference Include="UnityVS.VersionSpecific">
       <HintPath>Assets\Plugins\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-UnityScript">
+      <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityVS.Snake.CSharp.Plugins.csproj">

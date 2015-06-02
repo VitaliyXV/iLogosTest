@@ -7,8 +7,11 @@ public interface IFieldGenerator<T>
 	int Height { get; set; }
 	int WallCount { get; set; }
 	int VisibleRadius { get; set; }
-	T this[int x, int y] { get; set; }
-	
+	T this[int y, int x] { get; set; }
+
+	int PlayerStartPositionX { get; set; }
+	int PlayerStartPositionY { get; set; }
+
 	void Generate();
 	void SetRandomWalls();
 	void SetFood();

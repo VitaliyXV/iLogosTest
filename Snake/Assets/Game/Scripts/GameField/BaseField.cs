@@ -13,6 +13,8 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 	private int height;
 	private int visibleRadius;
 	private int wallCount;
+	private int playerStartPositionX;
+	private int playerStartPositionY;
 
 	public int Width
 	{
@@ -24,6 +26,18 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 	{
 		get	{ return height; }
 		set	{ height = value; }
+	}
+
+	public int PlayerStartPositionX
+	{
+		get { return playerStartPositionX; }
+		set { playerStartPositionX = value; }
+	}
+
+	public int PlayerStartPositionY
+	{
+		get { return playerStartPositionY; }
+		set { playerStartPositionY = value; }
 	}
 
 	public int WallCount
@@ -38,16 +52,19 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 		set { visibleRadius = value; }
 	}
 
-	public GameObject this[int x, int y]
+	public GameObject this[int y, int x]
 	{
-		get { return field[x, y]; }
-		set { field[x, y] = value; }
+		get { return field[y, x]; }
+		set { field[y, x] = value; }
 	}
 
 	void Awake()
 	{
 		WallCount = 10;
 		Width = Height = 10;
+
+		PlayerStartPositionX = Width / 2;
+		PlayerStartPositionY = Height / 2;
 
 		Generate();
 		SetRandomWalls();
@@ -62,6 +79,12 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 		{
 			int x = Random.Range(1, Width);
 			int y = Random.Range(1, Height);
+
+			if(x == PlayerStartPositionX && y == PlayerStartPositionY)
+			{
+				i--;
+				continue;
+			}
 
 			var tile = field[y, x];
 
@@ -87,6 +110,8 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 			int x = Random.Range(1, Width);
 			int y = Random.Range(1, Height);
 
+			if (x == PlayerStartPositionX && y == PlayerStartPositionY) continue;
+
 			tile = field[y, x];
 
 			var cell = tile.GetComponent<Cell>();
@@ -102,7 +127,7 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 
 	protected GameObject CreateWall(GameObject tile)
 	{
-		var wall = Instantiate(Wall, tile.transform.position, Quaternion.identity) as GameObject;
+		var wall = Instantiate(Wall, tile.transform.position, Quaternion.Euler(180, 0, 0)) as GameObject;
 		wall.transform.SetParent(tile.transform);	
 
 		return wall;

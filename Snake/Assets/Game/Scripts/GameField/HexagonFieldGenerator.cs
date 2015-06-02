@@ -1,85 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HexagonFieldGenerator : MonoBehaviour, IFieldGenerator<Cell>
+public class HexagonFieldGenerator : BaseField
 {
-	public GameObject TileObject;
-
-	private Cell[,] field;
-
-	private int width;
-	private int height;
-	private int visibleRadius;
-
 	//Hexagon tile width and height in game world
 	private float hexWidth;
 	private float hexHeight;
-
-	public int Width
+		
+	public override void Generate()
 	{
-		get
-		{
-			return width;
-		}
-		set
-		{
-			width = value;
-		}
-	}
-
-	public int Height
-	{
-		get
-		{
-			return height;
-		}
-		set
-		{
-			height = value;
-		}
-	}
-
-	public int VisibleRadius
-	{
-		get
-		{
-			return visibleRadius;
-		}
-		set
-		{
-			visibleRadius = value;
-		}
-	}
-
-	public Cell this[int x, int y]
-	{
-		get
-		{
-			return field[x, y];
-		}
-		set
-		{
-			field[x, y] = value;
-		}
-	}
-
-	void Awake()
-	{
-		Width = Height = 5;
 		setSizes();
-		Generate();
-	}
 
-	public void Generate()
-	{
-		field = new Cell[Height, Width];
+		field = new GameObject[Height + 2, Width + 2];
 
 		//Game object which is the parent of all the hex tiles
 		//GameObject hexGridGO = new GameObject("HexGrid");
-
-		for (int y = 0; y < Height; y++)
+		
+		for (int y = 0; y < Height + 2; y++)
 		{
-			for (int x = 0; x < Width; x++)
+			for (int x = 0; x < Width + 2; x++)
 			{
 				//GameObject assigned to Hex public variable is cloned
 				GameObject hex = (GameObject)Instantiate(TileObject);
@@ -93,15 +32,15 @@ public class HexagonFieldGenerator : MonoBehaviour, IFieldGenerator<Cell>
 				var cell = hex.GetComponent<Cell>();
 				cell.Type = type;
 				//cell.SetColor();
+				
+				field[y, x] = hex;
 
-				field[y, x] = cell;
+				if (y == 0 || x == 0 || y == Height + 1 || x == Height + 1)
+				{
+					CreateWall(field[y, x]);
+				}
 			}
 		}
-	}
-
-	public void Clear()
-	{
-		field = null;
 	}
 
 	//Method to initialise Hexagon width and height
@@ -126,6 +65,7 @@ public class HexagonFieldGenerator : MonoBehaviour, IFieldGenerator<Cell>
 	//method used to convert hex grid coordinates to game world coordinates
 	public Vector3 calcWorldCoord(Vector2 gridPos)
 	{
+		float offsetY = -(Height / 2.2f);
 		//Position of the first hex tile
 		Vector3 initPos = calcInitPos();
 		//Every second row is offset by half of the tile width
@@ -135,7 +75,7 @@ public class HexagonFieldGenerator : MonoBehaviour, IFieldGenerator<Cell>
 
 		float x = initPos.x + offset + gridPos.x * hexWidth;
 		//Every new line is offset in z direction by 3/4 of the hexagon height
-		float z = initPos.z - gridPos.y * hexHeight * 0.75f;
+		float z = initPos.z - gridPos.y * hexHeight * 0.75f - offsetY;
 		return new Vector3(x, z, 0);
 	}
 }

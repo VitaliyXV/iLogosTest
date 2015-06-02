@@ -96,6 +96,7 @@
     <Compile Include="Assets\Game\Scripts\Controllers\IMainMenuController.cs" />
     <Compile Include="Assets\Game\Scripts\Controllers\LocalDataProvider.cs" />
     <Compile Include="Assets\Game\Scripts\Controllers\MainMenuController.cs" />
+    <Compile Include="Assets\Game\Scripts\GameField\BaseField.cs" />
     <Compile Include="Assets\Game\Scripts\GameField\Cell.cs" />
     <Compile Include="Assets\Game\Scripts\GameField\CellType.cs" />
     <Compile Include="Assets\Game\Scripts\GameField\HexagonFieldGenerator.cs" />

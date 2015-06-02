@@ -5,6 +5,7 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 {
 	public GameObject TileObject;
 	public GameObject Wall;
+	public GameObject Food;
 
 	protected GameObject[,] field;
 
@@ -50,6 +51,7 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 
 		Generate();
 		SetRandomWalls();
+		SetFood();
 	}
 
 	public abstract void Generate();
@@ -61,16 +63,47 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 			int x = Random.Range(1, Width);
 			int y = Random.Range(1, Height);
 
-			// TODO: ckeck, if wall already present on tail
+			var tile = field[y, x];
 
-			CreateWall(field[y, x]);
+			var cell = tile.GetComponent<Cell>();
+
+			if (cell.IsNotEmptyTail)
+			{
+				i--;
+				continue;
+			}
+
+			CreateWall(tile);
+			cell.IsNotEmptyTail = true;
 		}
+	}
+
+	public void SetFood()
+	{
+		GameObject tile;
+
+		while (true)
+		{
+			int x = Random.Range(1, Width);
+			int y = Random.Range(1, Height);
+
+			tile = field[y, x];
+
+			var cell = tile.GetComponent<Cell>();
+
+			if (!cell.IsNotEmptyTail) break;
+		}
+
+		var food = Instantiate(Food, tile.transform.position, Quaternion.Euler(-90, 0, 0)) as GameObject;
+		food.transform.SetParent(tile.transform);
+
+		food.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 1); //.angularVelocity = Random.insideUnitSphere * 5;
 	}
 
 	protected GameObject CreateWall(GameObject tile)
 	{
 		var wall = Instantiate(Wall, tile.transform.position, Quaternion.identity) as GameObject;
-		wall.transform.SetParent(tile.transform);
+		wall.transform.SetParent(tile.transform);	
 
 		return wall;
 	}

@@ -10,5 +10,7 @@ public interface IFieldGenerator<T>
 	T this[int x, int y] { get; set; }
 	
 	void Generate();
+	void SetRandomWalls();
+	void SetFood();
 	void Clear();
 }

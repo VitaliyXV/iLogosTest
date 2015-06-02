@@ -18,14 +18,14 @@ public class SquareFieldGenerator : BaseField
 
 				var tile = Instantiate(TileObject, new Vector3(offsetX++, offsetY, 0), Quaternion.identity) as GameObject;
 				tile.transform.SetParent(transform);
-				
+
 				var cell = tile.GetComponent<Cell>();
 				cell.Type = type;
 				cell.SetColor();
 
 				field[y, x] = tile;
 
-				if(y == 0 || x == 0 || y == Height + 1 || x == Height + 1)
+				if (y == 0 || x == 0 || y == Height + 1 || x == Height + 1)
 				{
 					CreateWall(field[y, x]);
 				}

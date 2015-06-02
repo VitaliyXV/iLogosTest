@@ -3,6 +3,7 @@
 public class Cell : MonoBehaviour 
 {
 	public CellType Type;
+	public bool IsNotEmptyTail;
 		
 	void Awake()
 	{

@@ -57,6 +57,9 @@
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
+    <Reference Include="IFacebook">
+      <HintPath>Assets\Facebook\Scripts\IFacebook.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityVS.Snake.CSharp.Plugins.csproj">
@@ -65,28 +68,97 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Facebook\Scripts\AndroidFacebook.cs" />
+    <Compile Include="Assets\Facebook\Scripts\AndroidFacebookLoader.cs" />
+    <Compile Include="Assets\Facebook\Scripts\CanvasFacebookLoader.cs" />
+    <Compile Include="Assets\Facebook\Scripts\EditorFacebook.cs" />
+    <Compile Include="Assets\Facebook\Scripts\EditorFacebookAccessToken.cs" />
+    <Compile Include="Assets\Facebook\Scripts\EditorFacebookLoader.cs" />
+    <Compile Include="Assets\Facebook\Scripts\FB.cs" />
+    <Compile Include="Assets\Facebook\Scripts\FBAppRequestsFilterGroup.cs" />
+    <Compile Include="Assets\Facebook\Scripts\FBScreen.cs" />
+    <Compile Include="Assets\Facebook\Scripts\FBSettings.cs" />
+    <Compile Include="Assets\Facebook\Scripts\IOSFacebook.cs" />
+    <Compile Include="Assets\Facebook\Scripts\IOSFacebookLoader.cs" />
+    <Compile Include="Assets\Facebook\Scripts\NativeDialogModes.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\CameraCommand.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\ExitCommand.cs" />
+    <Compile Include="Assets\Game\Scripts\Commands\FacebookCommand.cs" />
+    <Compile Include="Assets\Game\Scripts\Commands\FacebookLoggedCommand.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\FieldTypeCommand.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\GameSignals.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\InputPlayerNameCommand.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\NewGameCommand.cs" />
+    <Compile Include="Assets\Game\Scripts\Commands\StartCommand.cs" />
     <Compile Include="Assets\Game\Scripts\Contexts\MainMenuBootstrap.cs" />
     <Compile Include="Assets\Game\Scripts\Contexts\MainMenuContext.cs" />
     <Compile Include="Assets\Game\Scripts\Contexts\SignalContext.cs" />
     <Compile Include="Assets\Game\Scripts\Controllers\IMainMenuController.cs" />
     <Compile Include="Assets\Game\Scripts\Controllers\LocalDataProvider.cs" />
     <Compile Include="Assets\Game\Scripts\Controllers\MainMenuController.cs" />
+    <Compile Include="Assets\Game\Scripts\GameField\Cell.cs" />
+    <Compile Include="Assets\Game\Scripts\GameField\CellType.cs" />
+    <Compile Include="Assets\Game\Scripts\GameField\HexagonFieldGenerator.cs" />
+    <Compile Include="Assets\Game\Scripts\GameField\IFieldGenerator.cs" />
+    <Compile Include="Assets\Game\Scripts\GameField\SquareFieldGenerator.cs" />
+    <Compile Include="Assets\Game\Scripts\GameObjectControllers\SnakeSpriteController.cs" />
     <Compile Include="Assets\Game\Scripts\Model\CameraType.cs" />
     <Compile Include="Assets\Game\Scripts\Model\FieldType.cs" />
     <Compile Include="Assets\Game\Scripts\Model\GameData.cs" />
     <Compile Include="Assets\Game\Scripts\Model\Player.cs" />
+    <Compile Include="Assets\Game\Scripts\Utils\FacebookProvider.cs" />
     <Compile Include="Assets\Game\Scripts\Utils\ISerializer.cs" />
+    <Compile Include="Assets\Game\Scripts\Utils\ISocialProvider.cs" />
+    <Compile Include="Assets\Game\Scripts\Utils\Optimizator.cs" />
     <Compile Include="Assets\Game\Scripts\Utils\XmlSerializator.cs" />
     <Compile Include="Assets\Game\Scripts\Views\MainMenuMediator.cs" />
     <Compile Include="Assets\Game\Scripts\Views\MainMenuView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Game\Resources\Audio\Dark Future\ReadMe.txt" />
+    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\Android\facebook\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\Android\facebook\build.xml" />
+    <None Include="Assets\Plugins\Android\facebook\proguard-project.txt" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_button_blue.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_button_check.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_button_like.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_button_like_selected.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_loginbutton_silver.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_picker_item_background.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_picker_list_selector.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_picker_list_selector_background_transition.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_picker_top_button.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_top_background.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_top_button.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_usersettingsfragment_background_gradient.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_friendpickerfragment.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_login_activity_layout.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_activity_circle_row.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_checkbox.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_image.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_list_row.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_list_section_header.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_search_box.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_title_bar.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_title_bar_stub.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_placepickerfragment.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_placepickerfragment_list_row.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_search_bar_layout.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_tooltip_bubble.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_usersettingsfragment.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values-es\strings.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values-hdpi\dimens.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values-he\strings.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values-iw\strings.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values-ldpi\dimens.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values-mdpi\dimens.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values-xhdpi\dimens.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values\attrs.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values\colors.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values\drawables.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values\strings.xml" />
+    <None Include="Assets\Plugins\Android\facebook\res\values\styles.xml" />
     <None Include="Assets\Plugins\StrangeIoC\LICENSE-2.0.txt" />
     <None Include="Assets\Plugins\StrangeIoC\README.txt" />
     <None Include="Assets\Plugins\StrangeIoC\examples\Assets\scripts\multiplecontexts\ReadMe.txt" />

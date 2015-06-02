@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.Snake.CSharp.Plugin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.Snake.CSharp", "UnityVS.Snake.CSharp.csproj", "{C200DCBF-ECD4-D788-B93A-B80317C6467E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.Snake.CSharp.Editor", "UnityVS.Snake.CSharp.Editor.csproj", "{A09DD6B1-3859-817F-61EE-7B6A663154A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{C200DCBF-ECD4-D788-B93A-B80317C6467E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C200DCBF-ECD4-D788-B93A-B80317C6467E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C200DCBF-ECD4-D788-B93A-B80317C6467E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A09DD6B1-3859-817F-61EE-7B6A663154A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09DD6B1-3859-817F-61EE-7B6A663154A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09DD6B1-3859-817F-61EE-7B6A663154A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09DD6B1-3859-817F-61EE-7B6A663154A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

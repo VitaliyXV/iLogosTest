@@ -9,6 +9,7 @@ public class MainMenuView : View
 {
 	public Button cameraButton;
 	public Button fieldButton;
+	public Button facebookButton;
 	public InputField playerInput;
 
 	private Text cameraButtonText;
@@ -19,6 +20,8 @@ public class MainMenuView : View
 	public Signal buttonCameraClicked = new Signal();
 	public Signal buttonFieldTypeClicked = new Signal();
 	public Signal buttonExitClicked = new Signal();
+	public Signal buttonFacebookClicked = new Signal();
+	public Signal facebookLoggedSignal = new Signal();
 	public Signal<string> inputPlayerNameChanged = new Signal<string>();
 	
 
@@ -30,7 +33,12 @@ public class MainMenuView : View
 		fieldButtonText = fieldButton.GetComponentInChildren<Text>();
 		playerInputText = playerInput.GetComponentsInChildren<Text>().ToList();
 
-		playerInputText.ForEach(t => t.text = GameData.Player.Name);
+		UpdatePlayerName();
+	}
+
+	public void Initialize()
+	{
+		Debug.Log("View initialized");
 	}
 
 	public void ButtonNewGameClicked()
@@ -55,9 +63,20 @@ public class MainMenuView : View
 		buttonExitClicked.Dispatch();
 	}
 
+	public void JoinWithFacebbok()
+	{
+		buttonFacebookClicked.Dispatch();
+
+		// TODO: set facebook button disabled
+	}
+
 	public void PlayerNameEditEnded()
 	{
-		//Debug.Log("Inputed name: " + playerInputText.text);
 		inputPlayerNameChanged.Dispatch(playerInputText.LastOrDefault().text);
+	}
+
+	public void UpdatePlayerName()
+	{
+		playerInputText.ForEach(t => t.text = GameData.Player.Name);
 	}
 }

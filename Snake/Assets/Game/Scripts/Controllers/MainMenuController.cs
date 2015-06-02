@@ -4,13 +4,25 @@ using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour, IMainMenuController
 {
-	void Awake()
-	{
-		// load Player data from preferences
-		GameData.Player = LocalDataProvider.Instance.GetPlayer();
-	}
+	[SerializeField]
+	private int snakeSpriteCount = 5;
+
+	[Inject]
+	public ISocialProvider SocialProvider { get; set; }
+
+	public GameObject SnakeSprite;
 	
 #region IMainMenuManager	
+
+	public void Initialize()
+	{
+		Debug.Log("Initialized");
+
+		// load Player data from preferences
+		GameData.Player = LocalDataProvider.Instance.GetPlayer();
+
+		RunSnakes();
+	}
 
 	public void StartNewGame()
 	{
@@ -43,6 +55,20 @@ public class MainMenuController : MonoBehaviour, IMainMenuController
 		Application.Quit();
 	}
 
+	public void JoinWithFacebook()
+	{
+		Debug.Log("FACEBOOK");
+		SocialProvider.ConnectToSocial();
+	}
+
 #endregion
-	
+
+	private void RunSnakes()
+	{
+		for (int i = 0; i < snakeSpriteCount; i++)
+		{
+			var snake = Instantiate(SnakeSprite, new Vector3(-9, -4, 0), Quaternion.identity) as GameObject;
+			snake.transform.SetParent(transform);
+		}
+	}
 }

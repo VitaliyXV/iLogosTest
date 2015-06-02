@@ -27,5 +27,7 @@ public class SignalContext : MVCSContext
 	public override void Launch()
 	{
 		base.Launch();
+		Signal startSignal = injectionBinder.GetInstance<StartSignal>();
+		startSignal.Dispatch();
 	}
 }

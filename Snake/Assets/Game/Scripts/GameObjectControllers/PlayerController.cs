@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
 		currentTile = field.PlayerStartPosition;
 		nextTile = field.NextTile(direction, ref tileY, ref tileX);
 
+		SetRotation();
+
 		oldPos = this.transform.position; 
 
 		controlOn = true;
@@ -57,8 +59,7 @@ public class PlayerController : MonoBehaviour
 	}
 	
 	void Update()
-	{
-		if (!controlOn) return; // returns, if snake control disabled
+	{		
 
 #if UNITY_ANDROID || UNITY_IOS // get input from touchpad
 
@@ -72,10 +73,9 @@ public class PlayerController : MonoBehaviour
 		if (verticalAxis > 0) { direction = Direction.UP; }
 		if (verticalAxis < 0) { direction = Direction.DOWN; }
 
+		if (!controlOn) return; // returns, if snake control disabled
 		
 		transform.position += ((nextTile.transform.position - oldPos) * Optimizator.Instance.DeltaTime * WalkSpeed);
-
-		//var q1 = Quaternion.LookRotation(nextTile.transform.position - transform.position);
 		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Optimizator.Instance.DeltaTime * RotateSpeed);
 
 		if (Vector3.Distance(transform.position, nextTile.transform.position) < 0.01f)
@@ -84,7 +84,6 @@ public class PlayerController : MonoBehaviour
 
 			if (direction != currentDirection)
 			{
-				//rotation = Quaternion.LookRotation(new Vector3(0, 0, nextTile.transform.position.z - transform.position.z));
 				SetRotation();
 				currentDirection = direction;
 			}
@@ -99,26 +98,10 @@ public class PlayerController : MonoBehaviour
 	{
 		switch (direction)
 		{
-			case Direction.UP:
-				if (currentDirection == Direction.DOWN) rotation = Quaternion.AngleAxis(180, new Vector3(0, 0, 1));
-				else if (currentDirection == Direction.LEFT) rotation = Quaternion.Euler(0, 0, 90);
-				else if (currentDirection == Direction.RIGHT) rotation = Quaternion.Euler(0, 0, -90);
-				break;
-			case Direction.DOWN:
-				if (currentDirection == Direction.UP) rotation = Quaternion.Euler(0, 0, 180);
-				else if (currentDirection == Direction.LEFT) rotation = Quaternion.Euler(0, 0, -90);
-				else if (currentDirection == Direction.RIGHT) rotation = Quaternion.Euler(0, 0, 90);
-				break;
-			case Direction.RIGHT:
-				if (currentDirection == Direction.LEFT) rotation = Quaternion.Euler(0, 0, 180);
-				else if (currentDirection == Direction.UP) rotation = Quaternion.Euler(0, 0, -90);
-				else if (currentDirection == Direction.DOWN) rotation = Quaternion.Euler(0, 0, 90);
-				break;				
-			case Direction.LEFT:
-				if (currentDirection == Direction.RIGHT) rotation = Quaternion.Euler(0, 0, 180);
-				else if (currentDirection == Direction.UP) rotation = Quaternion.Euler(0, 0, 90);
-				else if (currentDirection == Direction.DOWN) rotation = Quaternion.Euler(0, 0, -90);
-				break;
+			case Direction.UP: rotation = Quaternion.Euler(0, 0, 0); break;
+			case Direction.DOWN: rotation = Quaternion.Euler(0, 0, 180); break;
+			case Direction.RIGHT: rotation = Quaternion.Euler(0, 0, -90); break;
+			case Direction.LEFT: rotation = Quaternion.Euler(0, 0, 90); break;
 		}
 	}
 }

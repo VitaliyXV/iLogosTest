@@ -161,4 +161,6 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 	{
 		field = null;
 	}
+
+	public abstract GameObject NextTile(Direction direction, ref int y, ref int x);
 }

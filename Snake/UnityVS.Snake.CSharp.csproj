@@ -113,6 +113,7 @@
     <Compile Include="Assets\Game\Scripts\GameObjectControllers\PlayerController.cs" />
     <Compile Include="Assets\Game\Scripts\GameObjectControllers\SnakeSpriteController.cs" />
     <Compile Include="Assets\Game\Scripts\Model\CameraType.cs" />
+    <Compile Include="Assets\Game\Scripts\Model\Direction.cs" />
     <Compile Include="Assets\Game\Scripts\Model\FieldType.cs" />
     <Compile Include="Assets\Game\Scripts\Model\GameData.cs" />
     <Compile Include="Assets\Game\Scripts\Model\Player.cs" />

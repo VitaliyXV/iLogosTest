@@ -78,4 +78,19 @@ public class HexagonFieldGenerator : BaseField
 		float z = initPos.z - gridPos.y * hexHeight * 0.75f - offsetY;
 		return new Vector3(x, z, 0);
 	}
+
+	public override GameObject NextTile(Direction direction, ref int y, ref int x)
+	{
+		GameObject tile = null;
+
+		switch (direction)
+		{
+			case Direction.UP: tile = field[--y, x]; break;
+			case Direction.DOWN: tile = field[++y, x]; break;
+			case Direction.RIGHT: tile = field[y, ++x]; break;
+			case Direction.LEFT: tile = field[y, --x]; break;
+		}
+
+		return tile;
+	}
 }

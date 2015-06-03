@@ -39,4 +39,19 @@ public class SquareFieldGenerator : BaseField
 			offsetX = -(Width / 2);
 		}
 	}
+
+	public override GameObject NextTile(Direction direction, ref int y, ref int x)
+	{
+		GameObject tile = null;
+
+		switch (direction)
+		{
+			case Direction.UP: tile = field[++y, x]; break;
+			case Direction.DOWN: tile = field[--y, x]; break;
+			case Direction.RIGHT: tile = field[y, ++x]; break;
+			case Direction.LEFT: tile = field[y, --x]; break;
+		}
+
+		return tile;
+	}
 }

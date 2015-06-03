@@ -12,8 +12,7 @@ public class PlayerController : MonoBehaviour
 
 	void Start ()
 	{
-//		var start = field[field.PlayerStartPositionY, field.PlayerStartPositionX];
-//		transform.position = start.transform.position;
+		
 	}
 
 	void Update ()

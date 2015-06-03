@@ -27,6 +27,7 @@ public class MainMenuController : MonoBehaviour, IMainMenuController
 	public void StartNewGame()
 	{
 		Debug.Log("New game");
+		Application.LoadLevel("Game");
 	}
 
 	public void SwitchCamera()

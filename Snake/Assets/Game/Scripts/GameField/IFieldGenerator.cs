@@ -9,6 +9,7 @@ public interface IFieldGenerator<T>
 	int VisibleRadius { get; set; }
 	T this[int y, int x] { get; set; }
 
+	T PlayerStartPosition { get; set; }
 	int PlayerStartPositionX { get; set; }
 	int PlayerStartPositionY { get; set; }
 

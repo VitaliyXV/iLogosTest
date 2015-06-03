@@ -25,7 +25,7 @@ public class HexagonFieldGenerator : BaseField
 				//Current position in grid
 				Vector2 gridPos = new Vector2(x, y);
 				hex.transform.position = calcWorldCoord(gridPos);
-				hex.transform.SetParent(transform);
+				hex.transform.SetParent(parent.transform);
 
 				var type = (CellType)Random.Range(0, System.Enum.GetValues(typeof(CellType)).Length);
 

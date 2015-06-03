@@ -30,6 +30,12 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 		set	{ height = value; }
 	}
 
+	public GameObject PlayerStartPosition
+	{
+		get { return field[PlayerStartPositionY, PlayerStartPositionX]; }
+		set { }
+	}
+
 	public int PlayerStartPositionX
 	{
 		get { return playerStartPositionX; }

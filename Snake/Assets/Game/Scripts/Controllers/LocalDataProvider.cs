@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Class for save game data (locally)
@@ -44,5 +45,10 @@ public class LocalDataProvider
 	public void SavePlayersPreferences()
 	{
 		PlayerPrefs.Save();
+	}
+
+	public void GetPrefab(string name, Action<GameObject> callback)
+	{
+		callback((GameObject)Resources.Load("Prefabs/" + name));
 	}
 }

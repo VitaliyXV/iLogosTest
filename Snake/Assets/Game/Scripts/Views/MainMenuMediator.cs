@@ -7,7 +7,7 @@ public class MainMenuMediator : Mediator
 	public MainMenuView mainMenuView { get; set; }
 
 	[Inject]
-	public StartSignal startSignal { get; set; }
+	public MainMenuStartSignal startSignal { get; set; }
 
 	[Inject]
 	public NewGameSignal newGameSignal { get; set; }

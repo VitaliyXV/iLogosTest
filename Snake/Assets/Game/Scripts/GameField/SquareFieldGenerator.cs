@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 public class SquareFieldGenerator : BaseField
 {
+	public SquareFieldGenerator():base()
+	{
+
+	}
+
 	public override void Generate()
 	{
 		field = new GameObject[Height + 2, Width + 2];
@@ -17,7 +22,7 @@ public class SquareFieldGenerator : BaseField
 				var type = (CellType)Random.Range(0, System.Enum.GetValues(typeof(CellType)).Length);
 
 				var tile = Instantiate(TileObject, new Vector3(offsetX++, offsetY, 0), Quaternion.identity) as GameObject;
-				tile.transform.SetParent(transform);
+				tile.transform.SetParent(parent.transform);
 
 				var cell = tile.GetComponent<Cell>();
 				cell.Type = type;

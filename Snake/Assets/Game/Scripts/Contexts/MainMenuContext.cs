@@ -3,7 +3,7 @@
 /// <summary>
 /// Context for main menu scene
 /// </summary>
-public class MainMenuContext : SignalContext
+public class MainMenuContext : MainMenuSignalContext
 {
 	public MainMenuContext(MonoBehaviour contextView)
 		: base(contextView)
@@ -30,7 +30,7 @@ public class MainMenuContext : SignalContext
 
 	private void BindSignalsToCommands()
 	{
-		commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
+		commandBinder.Bind<MainMenuStartSignal>().To<MainMenuStartCommand>().Once();
 		commandBinder.Bind<NewGameSignal>().To<NewGameCommand>().Pooled();
 		commandBinder.Bind<CameraSignal>().To<CameraCommand>().Pooled();
 		commandBinder.Bind<FieldTypeSignal>().To<FieldTypeCommand>().Pooled();

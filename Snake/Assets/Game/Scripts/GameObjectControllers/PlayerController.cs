@@ -7,14 +7,13 @@ public class PlayerController : MonoBehaviour
 	public float Speed;
 	public int Length;
 
-	// TODO: [Inject]
-	public IFieldGenerator<GameObject> field;
+	[Inject]
+	public IFieldGenerator<GameObject> field { get; set; }
 
 	void Start ()
 	{
-		//var start = field[field.PlayerStartPositionY, field.PlayerStartPositionX];
-
-		//transform.position = start.transform.position;
+//		var start = field[field.PlayerStartPositionY, field.PlayerStartPositionX];
+//		transform.position = start.transform.position;
 	}
 
 	void Update ()

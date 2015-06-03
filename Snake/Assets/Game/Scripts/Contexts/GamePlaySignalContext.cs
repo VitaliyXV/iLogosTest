@@ -1,18 +1,15 @@
-﻿using UnityEngine;
-using strange.extensions.signal.impl;
-using strange.extensions.context.impl;
-using strange.extensions.command.api;
+﻿using strange.extensions.command.api;
 using strange.extensions.command.impl;
+using strange.extensions.context.impl;
+using strange.extensions.signal.impl;
+using UnityEngine;
 
-/// <summary>
-/// Class for enabling StrangeIoc signals
-/// </summary>
-public class SignalContext : MVCSContext
+public class GamePlaySignalContext : MVCSContext
 {
-	public SignalContext(MonoBehaviour contextView)
+	public GamePlaySignalContext(MonoBehaviour contextView)
 		: base(contextView)
 	{
-
+		
 	}
 
 	protected override void addCoreComponents()
@@ -27,7 +24,7 @@ public class SignalContext : MVCSContext
 	public override void Launch()
 	{
 		base.Launch();
-		Signal startSignal = injectionBinder.GetInstance<StartSignal>();
+		Signal startSignal = injectionBinder.GetInstance<GamePlayStartSignal>();
 		startSignal.Dispatch();
 	}
 }

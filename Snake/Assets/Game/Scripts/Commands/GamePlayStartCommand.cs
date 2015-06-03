@@ -1,9 +1,9 @@
 ﻿using strange.extensions.command.impl;
 
-public class StartCommand : Command
+public class GamePlayStartCommand : Command
 {
 	[Inject]
-	public IMainMenuController manager { get; set; }
+	public IGamePlayController manager { get; set; }
 
 	public override void Execute()
 	{

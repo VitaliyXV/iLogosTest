@@ -3,9 +3,11 @@ using System.Collections;
 
 public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 {
-	public GameObject TileObject;
-	public GameObject Wall;
-	public GameObject Food;
+	public GameObject TileObject { get; private set; }
+	public GameObject Wall { get; private set; }
+	public GameObject Food { get; private set; }
+
+	protected GameObject parent;
 
 	protected GameObject[,] field;
 
@@ -58,8 +60,24 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 		set { field[y, x] = value; }
 	}
 
-	void Awake()
+	public BaseField()
 	{
+		parent = GameObject.Find("GameContainer");
+
+		LocalDataProvider.Instance.GetPrefab("Rabbit", food => Food = food);
+
+		switch (GameData.CurrentFieldType)
+		{
+			case FieldType.Square:
+				LocalDataProvider.Instance.GetPrefab("SquareWall", wall => Wall = wall);
+				LocalDataProvider.Instance.GetPrefab("SquareTile", tile => TileObject = tile);
+				break;
+			case FieldType.Hexahonal:
+				LocalDataProvider.Instance.GetPrefab("HexagonWall", wall => Wall = wall);
+				LocalDataProvider.Instance.GetPrefab("HexTile", tile => TileObject = tile);
+				break;
+		}
+		
 		WallCount = 10;
 		Width = Height = 10;
 
@@ -127,7 +145,7 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 
 	protected GameObject CreateWall(GameObject tile)
 	{
-		var wall = Instantiate(Wall, tile.transform.position, Quaternion.Euler(180, 0, 0)) as GameObject;
+		var wall = Instantiate(Wall, tile.transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
 		wall.transform.SetParent(tile.transform);	
 
 		return wall;

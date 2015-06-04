@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 {
-	public GameObject TileObject { get; private set; }
+	public GameObject TileSurfaceObject { get; private set; }
 	public GameObject Wall { get; private set; }
 	public GameObject Food { get; private set; }
 
@@ -76,23 +76,19 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 		{
 			case FieldType.Square:
 				LocalDataProvider.Instance.GetPrefab("SquareWall", wall => Wall = wall);
-				LocalDataProvider.Instance.GetPrefab("SquareTile", tile => TileObject = tile);
+				LocalDataProvider.Instance.GetPrefab("SquareTile", tile => TileSurfaceObject = tile);
 				break;
 			case FieldType.Hexahonal:
 				LocalDataProvider.Instance.GetPrefab("HexagonWall", wall => Wall = wall);
-				LocalDataProvider.Instance.GetPrefab("HexTile", tile => TileObject = tile);
+				LocalDataProvider.Instance.GetPrefab("HexTile", tile => TileSurfaceObject = tile);
 				break;
 		}
 		
-		WallCount = 10;
-		Width = Height = 10;
+		WallCount = 8;
+		Width = Height = 8;
 
-		PlayerStartPositionX = Width / 2;
-		PlayerStartPositionY = Height / 2;
-
-		Generate();
-		SetRandomWalls();
-		SetFood();
+		PlayerStartPositionX = Width / 2 + 1;
+		PlayerStartPositionY = Height / 2 + 1;
 	}
 
 	public abstract void Generate();
@@ -114,21 +110,21 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 
 			var cell = tile.GetComponent<Cell>();
 
-			if (cell.IsNotEmptyTail)
+			if (cell.ObjectOnTileType != TileObject.Empty)
 			{
 				i--;
 				continue;
 			}
 
 			CreateWall(tile);
-			cell.IsNotEmptyTail = true;
 		}
 	}
 
-	public void SetFood()
+	public GameObject SetFood(GameObject existingFood)
 	{
 		GameObject tile;
-
+		Cell cell;
+		
 		while (true)
 		{
 			int x = Random.Range(1, Width);
@@ -137,22 +133,34 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 			if (x == PlayerStartPositionX && y == PlayerStartPositionY) continue;
 
 			tile = field[y, x];
+			cell = tile.GetComponent<Cell>();
 
-			var cell = tile.GetComponent<Cell>();
+			if (cell.ObjectOnTileType == TileObject.Empty) break;			
+		}		
 
-			if (!cell.IsNotEmptyTail) break;
+		if (existingFood == null)
+		{
+			existingFood = Instantiate(Food, tile.transform.position, Quaternion.Euler(-90, 0, 0)) as GameObject;
+			existingFood.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 1);
+		}
+		else
+		{
+			existingFood.transform.position = tile.transform.position;
 		}
 
-		var food = Instantiate(Food, tile.transform.position, Quaternion.Euler(-90, 0, 0)) as GameObject;
-		food.transform.SetParent(tile.transform);
+		existingFood.transform.SetParent(tile.transform);
 
-		food.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 1); //.angularVelocity = Random.insideUnitSphere * 5;
+		cell.ObjectOnTileType = TileObject.Food;
+		cell.ObjectOnTile = existingFood;
+
+		return existingFood;
 	}
 
 	protected GameObject CreateWall(GameObject tile)
 	{
 		var wall = Instantiate(Wall, tile.transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
-		wall.transform.SetParent(tile.transform);	
+		wall.transform.SetParent(tile.transform);
+		tile.GetComponent<Cell>().ObjectOnTileType = TileObject.Wall;
 
 		return wall;
 	}
@@ -162,5 +170,5 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 		field = null;
 	}
 
-	public abstract GameObject NextTile(Direction direction, ref int y, ref int x);
+	public abstract GameObject NextTile(Direction direction, ref int y, ref int x, ref Quaternion rotation);
 }

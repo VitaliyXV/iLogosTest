@@ -3,9 +3,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+	public AudioClip EatSound;
+	public AudioClip DeathSound;
+	public AudioClip IncreaseSound;
+	public AudioClip AttackSound;
+
 	public float WalkSpeed { get; set; }
 	public float RotateSpeed { get; set; }
-	public int Length { get; set; }	
+	public float AttackSpeed { get; set; }
+	public int Length { get; set; }
+	public float SpeedUpCoef { get; set; }
 
 	private Rigidbody body;
 	private bool controlOn;
@@ -13,7 +20,11 @@ public class PlayerController : MonoBehaviour
 	private Direction currentDirection;
 	private GameObject currentTile;
 	private GameObject nextTile;
+	private Cell nextCell;
 
+
+	private int oldTileY;
+	private int oldTileX;
 	private int tileY;
 	private int tileX;
 
@@ -22,9 +33,10 @@ public class PlayerController : MonoBehaviour
 	private float horizontalAxis = 0;
 	private float verticalAxis = 0;
 
-	[Inject]
+	//[Inject]
 	public IFieldGenerator<GameObject> field { get; set; }
 
+	private AudioSource audioSource;
 	private Animation animation;
 
 	void Start()
@@ -33,29 +45,34 @@ public class PlayerController : MonoBehaviour
 
 		WalkSpeed = 0.5f;
 		RotateSpeed = 5;
+		AttackSpeed = 0.6f;
+		SpeedUpCoef = 0.2f;
 
 		body = transform.GetComponent<Rigidbody>();
 		animation = GetComponentInChildren<Animation>();
+		audioSource = GetComponent<AudioSource>();
 		body.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;	
 	}
 
 	public void StartRun()
 	{
-		Debug.Log("RUN with speed: " + WalkSpeed);
-
-		tileY = field.PlayerStartPositionY;
-		tileX = field.PlayerStartPositionX;
+		oldTileY = tileY = field.PlayerStartPositionY;
+		oldTileX = tileX = field.PlayerStartPositionX;
 		currentTile = field.PlayerStartPosition;
-		nextTile = field.NextTile(direction, ref tileY, ref tileX);
 
-		SetRotation();
+		GetNextTile();
 
 		oldPos = this.transform.position; 
 
 		controlOn = true;
-		
-		animation.wrapMode = WrapMode.Loop;
-		animation.CrossFade("Walk");
+
+		Walk();
+	}
+
+	private void ReadyToRun()
+	{
+		controlOn = true;
+		Walk();
 	}
 	
 	void Update()
@@ -68,15 +85,21 @@ public class PlayerController : MonoBehaviour
 		verticalAxis = Input.GetAxis("Vertical");
 #endif
 
-		if (horizontalAxis > 0) { direction = Direction.RIGHT; }
-		if (horizontalAxis < 0) { direction = Direction.LEFT; }
-		if (verticalAxis > 0) { direction = Direction.UP; }
-		if (verticalAxis < 0) { direction = Direction.DOWN; }
+		if (horizontalAxis > 0) { direction = Direction.Right; }
+		if (horizontalAxis < 0) { direction = Direction.Left; }
+		if (verticalAxis > 0) { direction = Direction.Up; }
+		if (verticalAxis < 0) { direction = Direction.Down; }
+		
+		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Optimizator.Instance.DeltaTime * RotateSpeed);
 
 		if (!controlOn) return; // returns, if snake control disabled
 		
-		transform.position += ((nextTile.transform.position - oldPos) * Optimizator.Instance.DeltaTime * WalkSpeed);
-		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Optimizator.Instance.DeltaTime * RotateSpeed);
+		transform.position += ((nextTile.transform.position - oldPos) * Optimizator.Instance.DeltaTime * WalkSpeed);		
+
+		if (!isAttack && nextCell.ObjectOnTileType == TileObject.Food && Vector3.Distance(transform.position, nextCell.ObjectOnTile.transform.position) < 1.5f)
+		{
+			Attack();
+		}
 
 		if (Vector3.Distance(transform.position, nextTile.transform.position) < 0.01f)
 		{
@@ -84,24 +107,91 @@ public class PlayerController : MonoBehaviour
 
 			if (direction != currentDirection)
 			{
-				SetRotation();
 				currentDirection = direction;
 			}
 			
 			oldPos = transform.position = nextTile.transform.position;
 
-			nextTile = field.NextTile(direction, ref tileY, ref tileX);
+			GetNextTile();
 		}
 	}
 
-	private void SetRotation()
+	bool isAttack;
+
+	private void Attack()
 	{
-		switch (direction)
+		isAttack = true;
+
+		animation.wrapMode = WrapMode.Default;
+		animation.CrossFade("Attack");
+
+		audioSource.PlayOneShot(AttackSound);
+
+		Invoke("Eat", AttackSpeed);		
+	}
+
+	private void Eat()
+	{
+		audioSource.PlayOneShot(EatSound);
+
+		// TODO: spawn particle blood
+
+		// create new food
+		field.SetFood(nextCell.ObjectOnTile);
+		nextCell.ObjectOnTile = null;		
+		nextCell.ObjectOnTileType = TileObject.Empty;
+
+		// increase speed of snake
+		WalkSpeed += SpeedUpCoef;
+		RotateSpeed += SpeedUpCoef;
+		AttackSpeed -= SpeedUpCoef / 2;
+
+		Walk();
+
+		isAttack = false;
+	}
+
+	private void GetNextTile()
+	{
+		oldTileY = tileY;
+		oldTileX = tileX;
+		nextTile = field.NextTile(direction, ref tileY, ref tileX, ref rotation);
+		nextCell = nextTile.GetComponent<Cell>();
+	}
+
+	private void Walk()
+	{
+		animation.wrapMode = WrapMode.Loop;
+		animation.CrossFade("Walk");
+	}
+
+	void OnTriggerEnter(Collider target)
+	{
+		if(target.tag == "Wall")
 		{
-			case Direction.UP: rotation = Quaternion.Euler(0, 0, 0); break;
-			case Direction.DOWN: rotation = Quaternion.Euler(0, 0, 180); break;
-			case Direction.RIGHT: rotation = Quaternion.Euler(0, 0, -90); break;
-			case Direction.LEFT: rotation = Quaternion.Euler(0, 0, 90); break;
+			Death();
 		}
+	}
+
+	private void Death()
+	{
+		audioSource.PlayOneShot(DeathSound);
+		Debug.Log("Death");
+		transform.position = currentTile.transform.position;
+		nextTile = currentTile;
+		tileY = oldTileY;
+		tileX = oldTileX;
+		controlOn = false;
+		animation.wrapMode = WrapMode.Default;
+		animation.CrossFade("Dead");
+		
+		Invoke("Prepare", 2);
+	}
+
+	private void Prepare()
+	{
+		animation.wrapMode = WrapMode.Loop;
+		animation.CrossFade("Idle");
+		Invoke("ReadyToRun", 3);
 	}
 }

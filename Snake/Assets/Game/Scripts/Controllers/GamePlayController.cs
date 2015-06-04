@@ -18,6 +18,7 @@ public class GamePlayController : MonoBehaviour, IGamePlayController
 	void Start()
 	{
 		fieldGenerator.Generate();
+		
 		PlayerObject = Instantiate(PlayerObject, fieldGenerator.PlayerStartPosition.transform.position, GameData.CurrentFieldType == FieldType.Hexahonal ? Quaternion.Euler(0, 0, 33) :  Quaternion.identity) as GameObject;
 		playerController = PlayerObject.GetComponent<PlayerController>();
 		playerController.field = fieldGenerator;
@@ -29,12 +30,9 @@ public class GamePlayController : MonoBehaviour, IGamePlayController
 	{
 		for (int i = 3; i > 0; i--)
 		{
-			Debug.Log("Ready: " + i);
 			yield return new WaitForSeconds(1f);
 		}
 		
-		Debug.Log("GO!");
-
 		playerController.StartRun();
 	}
 }

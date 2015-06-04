@@ -110,6 +110,7 @@
     <Compile Include="Assets\Game\Scripts\GameField\HexagonFieldGenerator.cs" />
     <Compile Include="Assets\Game\Scripts\GameField\IFieldGenerator.cs" />
     <Compile Include="Assets\Game\Scripts\GameField\SquareFieldGenerator.cs" />
+    <Compile Include="Assets\Game\Scripts\GameField\TileObject.cs" />
     <Compile Include="Assets\Game\Scripts\GameObjectControllers\PlayerController.cs" />
     <Compile Include="Assets\Game\Scripts\GameObjectControllers\SnakeSpriteController.cs" />
     <Compile Include="Assets\Game\Scripts\Model\CameraType.cs" />

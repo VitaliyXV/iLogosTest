@@ -15,8 +15,8 @@ public interface IFieldGenerator<T>
 
 	void Generate();
 	void SetRandomWalls();
-	void SetFood();
+	GameObject SetFood(GameObject existingFood);
 	void Clear();
 
-	GameObject NextTile(Direction direction, ref int y, ref int x);
+	GameObject NextTile(Direction direction, ref int y, ref int x, ref Quaternion rotation);
 }

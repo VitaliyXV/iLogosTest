@@ -3,7 +3,8 @@
 public class Cell : MonoBehaviour 
 {
 	public CellType Type;
-	public bool IsNotEmptyTail;
+	public TileObject ObjectOnTileType;
+	public GameObject ObjectOnTile;
 		
 	void Awake()
 	{
@@ -28,7 +29,7 @@ public class Cell : MonoBehaviour
 
 	void Start () 
 	{
-	
+		
 	}
 	
 	void Update () 

@@ -57,6 +57,9 @@ public class MainMenuView : View
 		if (!int.TryParse(fieldHeightText.LastOrDefault().text, out fieldHeight) || fieldHeight < 3) fieldHeight = 10;
 		if (!int.TryParse(fieldWidthText.LastOrDefault().text, out fieldWidth) || fieldWidth < 3) fieldWidth = 10;
 
+		if (fieldHeight > 100) fieldHeight = 100;
+		if (fieldWidth > 100) fieldWidth = 100;
+
 		var size = new Vector2(fieldWidth, fieldHeight);
 
 		Debug.Log("Set size: " + size);

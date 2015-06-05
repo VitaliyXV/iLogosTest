@@ -9,9 +9,13 @@ public static class GameData
 	public static int FieldHeight { get; set; }
 	public static int FieldWeight { get; set; }
 	public static Player Player { get; set; }
+	public static int PointsByFood { get; set; }
+	public static int LifeCount { get; set; }
 
 	static GameData()
 	{
 		Player = new Player();
+		PointsByFood = 100;
+		LifeCount = 3;
 	}
 }

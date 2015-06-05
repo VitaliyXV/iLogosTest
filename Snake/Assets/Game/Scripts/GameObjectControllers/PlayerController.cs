@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
 	private Quaternion rotation;
 	private float horizontalAxis = 0;
 	private float verticalAxis = 0;
-
+	
 	//[Inject]
 	public IFieldGenerator<GameObject> field { get; set; }
 
@@ -43,10 +44,10 @@ public class PlayerController : MonoBehaviour
 	{
 		Debug.Log("Player start");
 
-		WalkSpeed = 0.5f;
+		WalkSpeed = 0.7f;
 		RotateSpeed = 5;
 		AttackSpeed = 0.6f;
-		SpeedUpCoef = 0.2f;
+		SpeedUpCoef = 0.1f;
 
 		body = transform.GetComponent<Rigidbody>();
 		animation = GetComponentInChildren<Animation>();
@@ -83,12 +84,9 @@ public class PlayerController : MonoBehaviour
 #else							
 		horizontalAxis = Input.GetAxis("Horizontal");
 		verticalAxis = Input.GetAxis("Vertical");
-#endif
 
-		if (horizontalAxis > 0) { direction = Direction.Right; }
-		if (horizontalAxis < 0) { direction = Direction.Left; }
-		if (verticalAxis > 0) { direction = Direction.Up; }
-		if (verticalAxis < 0) { direction = Direction.Down; }
+#endif
+		CheckDirection();		
 		
 		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Optimizator.Instance.DeltaTime * RotateSpeed);
 
@@ -113,6 +111,55 @@ public class PlayerController : MonoBehaviour
 			oldPos = transform.position = nextTile.transform.position;
 
 			GetNextTile();
+		}
+	}
+
+	private void CheckDirection()
+	{
+		switch (GameData.CurrentCameraType)
+		{
+			case CameraType.Ordinary:
+				if (horizontalAxis > 0) { direction = Direction.Right; }
+				if (horizontalAxis < 0) { direction = Direction.Left; }
+				if (verticalAxis > 0) { direction = Direction.Up; }
+				if (verticalAxis < 0) { direction = Direction.Down; }
+				break;
+
+			case CameraType.ThirdPerson:
+
+				if (horizontalAxis > 0)
+				{
+					switch (currentDirection)
+					{
+						case Direction.Up: direction = Direction.Right; break;
+						case Direction.Right: direction = Direction.Down; break;
+						case Direction.Down: direction = Direction.Left; break;
+						case Direction.Left: direction = Direction.Up; break;
+					}
+				}
+
+				if (horizontalAxis < 0)
+				{
+					switch (currentDirection)
+					{
+						case Direction.Up: direction = Direction.Left; break;
+						case Direction.Right: direction = Direction.Up; break;
+						case Direction.Down: direction = Direction.Right; break;
+						case Direction.Left: direction = Direction.Down; break;
+					}
+				}
+
+				if (verticalAxis > 0)
+				{
+					direction = Direction.Up;
+				}
+
+				if (verticalAxis < 0)
+				{
+					direction = Direction.Down;
+				}
+
+				break;
 		}
 	}
 

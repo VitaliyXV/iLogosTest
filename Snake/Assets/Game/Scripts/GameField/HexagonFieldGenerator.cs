@@ -38,7 +38,7 @@ public class HexagonFieldGenerator : BaseField
 				
 				field[y, x] = hex;
 
-				if (y == 0 || x == 0 || y == Height + 1 || x == Height + 1)
+				if (y == 0 || x == 0 || y == Height + 1 || x == Width + 1)
 				{
 					CreateWall(field[y, x]);
 				}

@@ -24,9 +24,11 @@ public class MainMenuController : MonoBehaviour, IMainMenuController
 		RunSnakes();
 	}
 
-	public void StartNewGame()
+	public void StartNewGame(Vector2 fieldSize)
 	{
-		Debug.Log("New game");
+		Debug.Log("New game: " + fieldSize.y + ", " + fieldSize.x);
+		GameData.FieldHeight = (int)fieldSize.y;
+		GameData.FieldWeight = (int)fieldSize.x;
 		Application.LoadLevel("Game");
 	}
 

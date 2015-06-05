@@ -7,16 +7,14 @@ using strange.extensions.signal.impl;
 
 public class MainMenuView : View
 {
-	public Button cameraButton;
-	public Button fieldButton;
-	public Button facebookButton;
-	public InputField playerInput;
-
-	private Text cameraButtonText;
-	private Text fieldButtonText;
-	private List<Text> playerInputText;
-
-	public Signal buttonNewGameClicked = new Signal();
+	public Button CameraButton;
+	public Button FieldButton;
+	public Button FacebookButton;
+	public InputField PlayerNameInput;
+	public InputField FieldHeightInput;
+	public InputField FieldWidthInput;
+	
+	public Signal<Vector2> buttonNewGameClicked = new Signal<Vector2>();
 	public Signal buttonCameraClicked = new Signal();
 	public Signal buttonFieldTypeClicked = new Signal();
 	public Signal buttonExitClicked = new Signal();
@@ -24,14 +22,21 @@ public class MainMenuView : View
 	public Signal facebookLoggedSignal = new Signal();
 	public Signal<string> inputPlayerNameChanged = new Signal<string>();
 	
+	private Text cameraButtonText;
+	private Text fieldButtonText;
+	private List<Text> playerInputText;
+	private List<Text> fieldHeightText;
+	private List<Text> fieldWidthText;
 
 	protected override void Start()
 	{
 		base.Start();
 
-		cameraButtonText = cameraButton.GetComponentInChildren<Text>();
-		fieldButtonText = fieldButton.GetComponentInChildren<Text>();
-		playerInputText = playerInput.GetComponentsInChildren<Text>().ToList();
+		cameraButtonText = CameraButton.GetComponentInChildren<Text>();
+		fieldButtonText = FieldButton.GetComponentInChildren<Text>();
+		playerInputText = PlayerNameInput.GetComponentsInChildren<Text>().ToList();
+		fieldHeightText = FieldHeightInput.GetComponentsInChildren<Text>().ToList();
+		fieldWidthText = FieldWidthInput.GetComponentsInChildren<Text>().ToList();
 
 		UpdatePlayerName();
 	}
@@ -43,7 +48,20 @@ public class MainMenuView : View
 
 	public void ButtonNewGameClicked()
 	{
-		buttonNewGameClicked.Dispatch();
+		int fieldWidth = 10;
+		int fieldHeight = 10;
+
+		var h = fieldHeightText.FirstOrDefault().text;
+		var w = fieldWidthText.FirstOrDefault().text;
+
+		if (!int.TryParse(fieldHeightText.LastOrDefault().text, out fieldHeight) || fieldHeight < 3) fieldHeight = 10;
+		if (!int.TryParse(fieldWidthText.LastOrDefault().text, out fieldWidth) || fieldWidth < 3) fieldWidth = 10;
+
+		var size = new Vector2(fieldWidth, fieldHeight);
+
+		Debug.Log("Set size: " + size);
+
+		buttonNewGameClicked.Dispatch(size);
 	}
 
 	public void ButtonCameraClicked()

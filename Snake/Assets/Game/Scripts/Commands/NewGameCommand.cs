@@ -5,9 +5,12 @@ public class NewGameCommand : Command
 {
 	[Inject]
 	public IMainMenuController manager { get; set; }
+
+	[Inject]
+	public Vector2 FieldSize { get; set; }
 	
 	public override void Execute()
 	{
-		manager.StartNewGame();
+		manager.StartNewGame(FieldSize);
 	}
 }

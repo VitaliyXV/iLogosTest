@@ -30,7 +30,7 @@ public class SquareFieldGenerator : BaseField
 
 				field[y, x] = tile;
 
-				if (y == 0 || x == 0 || y == Height + 1 || x == Height + 1)
+				if (y == 0 || x == 0 || y == Height + 1 || x == Width + 1)
 				{
 					CreateWall(field[y, x]);
 				}

@@ -1,7 +1,8 @@
 ﻿using strange.extensions.signal.impl;
+using UnityEngine;
 
 public class MainMenuStartSignal : Signal { }
-public class NewGameSignal : Signal { }
+public class NewGameSignal : Signal<Vector2> { }
 public class CameraSignal : Signal { }
 public class FieldTypeSignal : Signal { }
 public class ExitSignal : Signal { }

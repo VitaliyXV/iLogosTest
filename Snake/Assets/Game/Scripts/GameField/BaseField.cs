@@ -84,8 +84,10 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 				break;
 		}
 		
-		WallCount = 8;
-		Width = Height = 8;
+		Width = GameData.FieldWeight;
+		Height = GameData.FieldHeight;
+
+		WallCount = Width * Height / 20;
 
 		PlayerStartPositionX = Width / 2 + 1;
 		PlayerStartPositionY = Height / 2 + 1;

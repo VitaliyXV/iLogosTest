@@ -11,3 +11,6 @@ public class FacebookLoggedSignal : Signal { }
 public class InputPlayerNameSignal : Signal<string> { }
 
 public class GamePlayStartSignal : Signal { }
+public class LifesChangedSignal : Signal<int> { }
+public class LengthChangedSignal : Signal<int> { }
+public class PointsChangedSignal : Signal<int> { }

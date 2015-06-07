@@ -33,9 +33,20 @@ public class PlayerController : MonoBehaviour
 	private Quaternion rotation;
 	private float horizontalAxis = 0;
 	private float verticalAxis = 0;
+
+	bool isAttack;
 	
 	//[Inject]
 	public IFieldGenerator<GameObject> field { get; set; }
+
+	//[Inject]
+	public LifesChangedSignal lifesChangedSignal { get; set; }
+
+	//[Inject]
+	public LengthChangedSignal lengthChangedSignal { get; set; }
+
+	//[Inject]
+	public PointsChangedSignal pointsChangedSignal { get; set; }
 
 	private AudioSource audioSource;
 	private Animation animation;
@@ -162,9 +173,7 @@ public class PlayerController : MonoBehaviour
 				break;
 		}
 	}
-
-	bool isAttack;
-
+	
 	private void Attack()
 	{
 		isAttack = true;
@@ -192,6 +201,10 @@ public class PlayerController : MonoBehaviour
 		WalkSpeed += SpeedUpCoef;
 		RotateSpeed += SpeedUpCoef;
 		AttackSpeed -= SpeedUpCoef / 2;
+
+		lengthChangedSignal.Dispatch(++GameData.SnakeLength);
+		GameData.CurrentPoints += GameData.PointsByFood;
+		pointsChangedSignal.Dispatch(GameData.CurrentPoints);
 
 		Walk();
 
@@ -231,6 +244,8 @@ public class PlayerController : MonoBehaviour
 		controlOn = false;
 		animation.wrapMode = WrapMode.Default;
 		animation.CrossFade("Dead");
+
+		lifesChangedSignal.Dispatch(--GameData.LifeCount);
 		
 		Invoke("Prepare", 2);
 	}

@@ -10,6 +10,15 @@ public class GamePlayController : MonoBehaviour, IGamePlayController
 	[Inject]
 	public IFieldGenerator<GameObject> fieldGenerator { get; set; }
 
+	[Inject]
+	public LifesChangedSignal lifesChangedSignal { get; set; }
+
+	[Inject]
+	public LengthChangedSignal lengthChangedSignal { get; set; }
+
+	[Inject]
+	public PointsChangedSignal pointsChangedSignal { get; set; }
+
 	public void Initialize()
 	{
 		Debug.Log("Init Game play");
@@ -20,8 +29,12 @@ public class GamePlayController : MonoBehaviour, IGamePlayController
 		fieldGenerator.Generate();
 		
 		PlayerObject = Instantiate(PlayerObject, fieldGenerator.PlayerStartPosition.transform.position, GameData.CurrentFieldType == FieldType.Hexahonal ? Quaternion.Euler(0, 0, 33) :  Quaternion.identity) as GameObject;
+		
 		playerController = PlayerObject.GetComponent<PlayerController>();
 		playerController.field = fieldGenerator;
+		playerController.lifesChangedSignal = lifesChangedSignal;
+		playerController.lengthChangedSignal = lengthChangedSignal;
+		playerController.pointsChangedSignal = pointsChangedSignal;
 
 		StartCoroutine(StartCountdown());
 	}

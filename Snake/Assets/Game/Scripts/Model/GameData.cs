@@ -11,11 +11,13 @@ public static class GameData
 	public static Player Player { get; set; }
 	public static int PointsByFood { get; set; }
 	public static int LifeCount { get; set; }
+	public static int SnakeLength { get; set; }
+	public static int CurrentPoints { get; set; }
 
 	static GameData()
 	{
 		Player = new Player();
 		PointsByFood = 100;
 		LifeCount = 3;
-	}
+	}	
 }

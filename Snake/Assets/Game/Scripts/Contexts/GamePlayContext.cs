@@ -15,6 +15,8 @@ public class GamePlayContext : GamePlaySignalContext
 		var manager = GameObject.Find("Manager").GetComponent<GamePlayController>();
 		injectionBinder.Bind<IGamePlayController>().ToValue(manager);
 
+		mediationBinder.Bind<GamePlayView>().To<GamePlayMediator>();
+
 		switch (GameData.CurrentFieldType)
 		{
 			case FieldType.Square:
@@ -29,5 +31,8 @@ public class GamePlayContext : GamePlaySignalContext
 	private void BindSignalsToCommands()
 	{
 		commandBinder.Bind<GamePlayStartSignal>().To<GamePlayStartCommand>().Once();
+		commandBinder.Bind<LifesChangedSignal>().To<LifesChangedCommand>().Pooled();
+		commandBinder.Bind<LengthChangedSignal>().To<LengthChangedCommand>().Pooled();
+		commandBinder.Bind<PointsChangedSignal>().To<PointsChangedCommand>().Pooled();
 	}
 }

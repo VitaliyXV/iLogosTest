@@ -11,12 +11,10 @@ public class LocalDataProvider
 
 	private static LocalDataProvider instance = new LocalDataProvider();
 
-	[Inject]
 	public ISerializer Serializer { get; set; }
 
 	private LocalDataProvider()
 	{
-		// can't injected Serializer property :(
 		Serializer = new XmlSerializator();
 	}
 

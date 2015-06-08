@@ -34,5 +34,6 @@ public class GamePlayContext : GamePlaySignalContext
 		commandBinder.Bind<LifesChangedSignal>().To<LifesChangedCommand>().Pooled();
 		commandBinder.Bind<LengthChangedSignal>().To<LengthChangedCommand>().Pooled();
 		commandBinder.Bind<PointsChangedSignal>().To<PointsChangedCommand>().Pooled();
+		commandBinder.Bind<GameOverSignal>().To<GameOverCommand>().Pooled();
 	}
 }

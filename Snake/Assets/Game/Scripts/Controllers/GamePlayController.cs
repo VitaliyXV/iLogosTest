@@ -19,6 +19,9 @@ public class GamePlayController : MonoBehaviour, IGamePlayController
 	[Inject]
 	public PointsChangedSignal pointsChangedSignal { get; set; }
 
+	[Inject]
+	public GameOverSignal gameOverSignal { get; set; }
+
 	public void Initialize()
 	{
 		Debug.Log("Init Game play");
@@ -35,10 +38,14 @@ public class GamePlayController : MonoBehaviour, IGamePlayController
 		playerController.lifesChangedSignal = lifesChangedSignal;
 		playerController.lengthChangedSignal = lengthChangedSignal;
 		playerController.pointsChangedSignal = pointsChangedSignal;
+		playerController.gameOverSignal = gameOverSignal;
 
 		StartCoroutine(StartCountdown());
 	}
 
+	/// <summary>
+	/// Countdown for game start
+	/// </summary>
 	IEnumerator StartCountdown()
 	{
 		for (int i = 3; i > 0; i--)

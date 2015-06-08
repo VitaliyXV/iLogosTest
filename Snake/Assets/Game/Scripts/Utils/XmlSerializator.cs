@@ -41,7 +41,6 @@ public class XmlSerializator : ISerializer
 		var serializer = new XmlSerializer(typeof(T));
 
 		var settings = new XmlReaderSettings();
-		// No settings need modifying here
 
 		using (var textReader = new StringReader(xml))
 		{

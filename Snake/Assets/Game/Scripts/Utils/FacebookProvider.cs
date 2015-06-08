@@ -33,10 +33,13 @@ public class FacebookProvider : ISocialProvider
 		FB.Login("public_profile", AuthCallback);
 	}
 
+	/// <summary>
+	/// Get First name of facebook account
+	/// </summary>
+	/// <param name="result"></param>
 	private void AuthCallback(FBResult result)
 	{
 		Debug.Log("Auth: " + result.Error);
-
 
 		FB.API("/me?fields=id,first_name", Facebook.HttpMethod.GET,
 			(res) =>
@@ -52,7 +55,10 @@ public class FacebookProvider : ISocialProvider
 		Debug.Log("OnHideUnity");
 	}
 
-	public string DeserializeJSONProfile(string response)
+	/// <summary>
+	/// Parse facebook's response
+	/// </summary>
+	private string DeserializeJSONProfile(string response)
 	{
 		var responseObject = Json.Deserialize(response) as Dictionary<string, object>;
 		object nameH;

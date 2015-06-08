@@ -15,12 +15,15 @@ public class GamePlayMediator : Mediator
 	[Inject]
 	public PointsChangedSignal pointsChangedSignal { get; set; }
 
+	[Inject]
+	public GameOverSignal gameOverSignal { get; set; }
+
 	public override void OnRegister()
 	{
-		Debug.Log("Registered");
 		lifesChangedSignal.AddListener(gamePlayView.UpdateLifes);
 		lengthChangedSignal.AddListener(gamePlayView.UpdateLength);
 		pointsChangedSignal.AddListener(gamePlayView.UpdatePoints);
+		gameOverSignal.AddListener(gamePlayView.GameOver);
 	}
 
 	public override void OnRemove()
@@ -28,5 +31,6 @@ public class GamePlayMediator : Mediator
 		lifesChangedSignal.RemoveListener(gamePlayView.UpdateLifes);
 		lengthChangedSignal.RemoveListener(gamePlayView.UpdateLength);
 		pointsChangedSignal.RemoveListener(gamePlayView.UpdatePoints);
+		gameOverSignal.RemoveListener(gamePlayView.GameOver);
 	}
 }

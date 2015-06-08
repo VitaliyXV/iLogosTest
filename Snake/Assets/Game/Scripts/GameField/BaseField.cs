@@ -3,12 +3,15 @@ using System.Collections;
 
 public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 {
+	// References to prefabs
 	public GameObject TileSurfaceObject { get; private set; }
 	public GameObject Wall { get; private set; }
 	public GameObject Food { get; private set; }
 
+	// reference to parent container for set field as child of it
 	protected GameObject parent;
 
+	// game field matrix
 	protected GameObject[,] field;
 
 	private int width;
@@ -70,6 +73,7 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 	{
 		parent = GameObject.Find("GameContainer");
 
+		// set prefabs
 		LocalDataProvider.Instance.GetPrefab("Rabbit", food => Food = food);
 
 		switch (GameData.CurrentFieldType)
@@ -87,16 +91,26 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 		Width = GameData.FieldWeight;
 		Height = GameData.FieldHeight;
 
+		// calculate walls count
 		WallCount = Width * Height / 20;
 
+		// calculate player start position
 		PlayerStartPositionX = Width / 2 + 1;
 		PlayerStartPositionY = Height / 2 + 1;
 	}
 
+	/// <summary>
+	/// Generate field
+	/// </summary>
 	public abstract void Generate();
 
+	/// <summary>
+	/// Set random walls on field
+	/// </summary>
 	public void SetRandomWalls()
 	{
+		// TODO: optimize algorithm: check deaf angles
+
 		for (int i = 0; i < wallCount; i++)
 		{
 			int x = Random.Range(1, Width);
@@ -122,11 +136,17 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 		}
 	}
 
+	/// <summary>
+	/// Set food on field
+	/// </summary>
+	/// <param name="existingFood">Existing food, or null, if first food created</param>
+	/// <returns></returns>
 	public GameObject SetFood(GameObject existingFood)
 	{
 		GameObject tile;
 		Cell cell;
 		
+		// find random empty tile
 		while (true)
 		{
 			int x = Random.Range(1, Width);
@@ -140,26 +160,34 @@ public abstract class BaseField : MonoBehaviour, IFieldGenerator<GameObject>
 			if (cell.ObjectOnTileType == TileObject.Empty) break;			
 		}		
 
-		if (existingFood == null)
+		
+		if (existingFood == null) // if this first food - create instance
 		{
 			existingFood = Instantiate(Food, tile.transform.position, Quaternion.Euler(-90, 0, 0)) as GameObject;
 			existingFood.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 1);
 		}
-		else
+		else // move old food on new position
 		{
 			existingFood.transform.position = tile.transform.position;
 		}
 
 		existingFood.transform.SetParent(tile.transform);
 
+		// swith on food on tile
 		cell.ObjectOnTileType = TileObject.Food;
 		cell.ObjectOnTile = existingFood;
 
 		return existingFood;
 	}
 
+	/// <summary>
+	/// Create new wall
+	/// </summary>
+	/// <param name="tile">Destination tile</param>
 	protected GameObject CreateWall(GameObject tile)
 	{
+		// TODO: optimize: create object pool
+
 		var wall = Instantiate(Wall, tile.transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
 		wall.transform.SetParent(tile.transform);
 		tile.GetComponent<Cell>().ObjectOnTileType = TileObject.Wall;

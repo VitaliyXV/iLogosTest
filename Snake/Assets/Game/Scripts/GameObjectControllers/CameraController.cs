@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
 
 	void Start () 
 	{
+		// get player to follow him
 		Player = GameObject.FindGameObjectWithTag("Player");
 		playerCameraPoint = GameObject.FindGameObjectWithTag("Camera");
 
@@ -23,11 +24,13 @@ public class CameraController : MonoBehaviour
 		
 	void Update ()
 	{
+		// switch camera type, by 'V' key pressed
 		if(Input.GetKeyUp(KeyCode.V))
 		{
 			SwitchCamera();
 		}
 
+		// move camera
 		switch (GameData.CurrentCameraType)
 		{
 			case CameraType.Ordinary: MoveTopCamera(); break;

@@ -1,16 +1,28 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This class attached to tile object and contains additional data about tile
+/// </summary>
 public class Cell : MonoBehaviour 
 {
+	/// <summary>
+	/// Type of cell (now, its just for color (only for square field))
+	/// </summary>
 	public CellType Type;
-	public TileObject ObjectOnTileType;
-	public GameObject ObjectOnTile;
-		
-	void Awake()
-	{
-		
-	}
 
+	/// <summary>
+	/// Type of game object on current tile
+	/// </summary>
+	public TileObject ObjectOnTileType;
+
+	/// <summary>
+	/// Referense to Game Object on current tile
+	/// </summary>
+	public GameObject ObjectOnTile;
+			
+	/// <summary>
+	/// Set color for current tile
+	/// </summary>
 	public void SetColor()
 	{
 		Color color = Color.gray;
@@ -25,15 +37,5 @@ public class Cell : MonoBehaviour
 		Renderer rend = GetComponent<Renderer>();
 		rend.material.shader = Shader.Find("Specular");
 		rend.material.SetColor("_Color", color);
-	}
-
-	void Start () 
-	{
-		
-	}
-	
-	void Update () 
-	{
-	
 	}
 }

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Class for generate and control squared field
+/// </summary>
 public class SquareFieldGenerator : BaseField
 {
 	public SquareFieldGenerator():base()
@@ -10,11 +13,16 @@ public class SquareFieldGenerator : BaseField
 
 	public override void Generate()
 	{
+		// TODO: optimize generator with object pool
+
+		// create field matrix (include borders)
 		field = new GameObject[Height + 2, Width + 2];
 		
+		// calculate center position
 		int offsetX = -(Width / 2);
 		int offsetY = -(int)(Height / 2.5);
 
+		// ganerate field
 		for (int y = 0; y < Height + 2; y++)
 		{
 			for (int x = 0; x < Width + 2; x++)
@@ -30,6 +38,7 @@ public class SquareFieldGenerator : BaseField
 
 				field[y, x] = tile;
 
+				// create walls for borders
 				if (y == 0 || x == 0 || y == Height + 1 || x == Width + 1)
 				{
 					CreateWall(field[y, x]);
@@ -38,11 +47,19 @@ public class SquareFieldGenerator : BaseField
 			offsetY++;
 			offsetX = -(Width / 2);
 		}
-
+		
 		SetRandomWalls();
 		SetFood(null);
 	}
 
+	/// <summary>
+	/// Get next tile
+	/// </summary>
+	/// <param name="direction">Moving direction</param>
+	/// <param name="y">Current Y position</param>
+	/// <param name="x">Current X position</param>
+	/// <param name="rotation">Current rotation</param>
+	/// <returns>Next tile GameObject</returns>
 	public override GameObject NextTile(Direction direction, ref int y, ref int x, ref Quaternion rotation)
 	{
 		GameObject tile = null;

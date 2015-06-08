@@ -11,7 +11,6 @@ public class InputPlayerNameCommand : Command
 
 	public override void Execute()
 	{
-		Debug.Log("Commnad name: " + name);
 		manager.InputPlayerName(name);
 	}
 }

@@ -46,6 +46,9 @@ public class MainMenuView : View
 		Debug.Log("View initialized");
 	}
 
+	/// <summary>
+	/// Start new game
+	/// </summary>
 	public void ButtonNewGameClicked()
 	{
 		int fieldWidth = 10;
@@ -67,23 +70,35 @@ public class MainMenuView : View
 		buttonNewGameClicked.Dispatch(size);
 	}
 
+	/// <summary>
+	/// Switch camera type
+	/// </summary>
 	public void ButtonCameraClicked()
 	{		
 		buttonCameraClicked.Dispatch();
 		cameraButtonText.text = GameData.CurrentCameraType.ToString();
 	}
 
+	/// <summary>
+	/// switch field type
+	/// </summary>
 	public void ButtonFieldTypeClicked()
 	{		
 		buttonFieldTypeClicked.Dispatch();
 		fieldButtonText.text = GameData.CurrentFieldType.ToString();
 	}
 
+	/// <summary>
+	/// Exit from game
+	/// </summary>
 	public void ButtonExitClicked()
 	{
 		buttonExitClicked.Dispatch();
 	}
 
+	/// <summary>
+	/// Now, it just get first name from facebook
+	/// </summary>
 	public void JoinWithFacebbok()
 	{
 		buttonFacebookClicked.Dispatch();

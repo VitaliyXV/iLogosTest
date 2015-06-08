@@ -3,18 +3,22 @@ using System.Collections;
 
 public class HexagonFieldGenerator : BaseField
 {
-	//Hexagon tile width and height in game world
+	// hexagon tile width and height
 	private float hexWidth;
 	private float hexHeight;
 		
 	public override void Generate()
 	{
-		field = new GameObject[Height + 2, Width + 2];
+		// TODO: optimize generator with object pool
 
+		// create field matrix (include borders)
+		field = new GameObject[Height + 2, Width + 2];
+		
+		// calculate center position
 		int offsetX = -(Width / 2);
 		int offsetY = -(int)(Height / 2.5);
 
-		setSizes();
+		SetSizes();
 
 		//Game object which is the parent of all the hex tiles
 		//GameObject hexGridGO = new GameObject("HexGrid");
@@ -27,7 +31,7 @@ public class HexagonFieldGenerator : BaseField
 				GameObject hex = (GameObject)Instantiate(TileSurfaceObject);
 				//Current position in grid
 				Vector2 gridPos = new Vector2(x, y);
-				hex.transform.position = calcWorldCoord(gridPos);
+				hex.transform.position = CalcWorldCoord(gridPos);
 				hex.transform.SetParent(parent.transform);
 
 				var type = (CellType)Random.Range(0, System.Enum.GetValues(typeof(CellType)).Length);
@@ -49,46 +53,60 @@ public class HexagonFieldGenerator : BaseField
 		SetFood(null);
 	}
 
-	//Method to initialise Hexagon width and height
-	void setSizes()
+	/// <summary>
+	/// Set hexagon width and height
+	/// </summary>
+	private void SetSizes()
 	{
-		//renderer component attached to the Hex prefab is used to get the current width and height
-		hexWidth = 1; //TileObject.renderer.bounds.size.x;
-		hexHeight = 1; //TileObject.renderer.bounds.size.z;
+		hexWidth = 1;
+		hexHeight = 1;
 	}
 
-	//Method to calculate the position of the first hexagon tile
-	//The center of the hex grid is (0,0,0)
-	Vector3 calcInitPos()
+	/// <summary>
+	/// Calculate the position of the first hexagon tile (center of the hex grid is (0,0,0))
+	/// </summary>
+	/// <returns></returns>
+	private Vector3 CalcInitPos()
 	{
 		Vector3 initPos;
-		//the initial position will be in the left upper corner
+
+		// initial position will be in the left upper corner
 		initPos = new Vector3(-hexWidth * Width / 2f + hexWidth / 2, Height / 2f * hexHeight - hexHeight / 2, 0);
 
 		return initPos;
 	}
 
-	//method used to convert hex grid coordinates to game world coordinates
-	public Vector3 calcWorldCoord(Vector2 gridPos)
+	/// <summary>
+	/// Convert hex grid coordinates to game world coordinates
+	/// </summary>
+	private Vector3 CalcWorldCoord(Vector2 gridPos)
 	{
 		float offsetY = -(Height / 2.2f);
 
-		//Position of the first hex tile
-		Vector3 initPos = calcInitPos();
+		// position of the first hex tile
+		Vector3 initPos = CalcInitPos();
 
-		//Every second row is offset by half of the tile width
+		// every second row is offset by half of the tile width
 		float offset = 0;
 
 		if (gridPos.y % 2 != 0)	offset = hexWidth / 2;
 
 		float x = initPos.x + offset + gridPos.x * hexWidth;
 
-		//Every new line is offset in z direction by 3/4 of the hexagon height
+		// every new line is offset in z direction by 3/4 of the hexagon height
 		float z = initPos.z - gridPos.y * hexHeight * 0.75f - offsetY;
 
 		return new Vector3(x, z, 0);
 	}
 
+	/// <summary>
+	/// Get next tile
+	/// </summary>
+	/// <param name="direction">Moving direction</param>
+	/// <param name="y">Current Y position</param>
+	/// <param name="x">Current X position</param>
+	/// <param name="rotation">Current rotation</param>
+	/// <returns>Next tile GameObject</returns>
 	public override GameObject NextTile(Direction direction, ref int y, ref int x, ref Quaternion rotation)
 	{
 		GameObject tile = null;

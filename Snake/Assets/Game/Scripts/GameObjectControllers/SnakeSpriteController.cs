@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Used for snakes on MainMenu screen
+/// </summary>
 public class SnakeSpriteController : MonoBehaviour
 {
 	public float MinXPosition;
@@ -19,8 +22,10 @@ public class SnakeSpriteController : MonoBehaviour
 	
 	void SetDirection()
 	{
+		// set random speed
 		moveSpeed = Random.Range(1.0f, MaxSpeed);
 		
+		// set random position
 		startPosition = transform.position;
 		startPosition.y = Random.Range(MinYPosition, (MaxYPosition - MinYPosition) + MinYPosition);
 		startPosition.z = 0;
@@ -34,6 +39,7 @@ public class SnakeSpriteController : MonoBehaviour
 
 	void Update()
 	{
+		// move snake
 		Vector3 currentPosition = transform.position;
 
 		Vector3 moveDirection = endPosition - currentPosition;
@@ -43,6 +49,7 @@ public class SnakeSpriteController : MonoBehaviour
 		Vector3 target = moveDirection * moveSpeed + currentPosition;
 		transform.position = Vector3.Lerp(currentPosition, target, Optimizator.Instance.DeltaTime);
 		
+		// reset snake on new position
 		if (Mathf.Round(currentPosition.x - endPosition.x) == 0)
 		{
 			transform.Rotate(0, 180, 0);

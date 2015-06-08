@@ -12,14 +12,14 @@ public class MainMenuController : MonoBehaviour, IMainMenuController
 
 	public GameObject SnakeSprite;
 	
-#region IMainMenuManager	
-
 	public void Initialize()
 	{
 		Debug.Log("Initialized");
 
+		GameData.ResetGameData();
+
 		// load Player data from preferences
-		GameData.Player = LocalDataProvider.Instance.GetPlayer();
+		GameData.Player = LocalDataProvider.Instance.GetPlayer();	
 
 		RunSnakes();
 	}
@@ -27,8 +27,10 @@ public class MainMenuController : MonoBehaviour, IMainMenuController
 	public void StartNewGame(Vector2 fieldSize)
 	{
 		Debug.Log("New game: " + fieldSize.y + ", " + fieldSize.x);
+
 		GameData.FieldHeight = (int)fieldSize.y;
 		GameData.FieldWeight = (int)fieldSize.x;
+
 		Application.LoadLevel("Game");
 	}
 
@@ -36,6 +38,7 @@ public class MainMenuController : MonoBehaviour, IMainMenuController
 	{
 		var type = (int)GameData.CurrentCameraType + 1;
 		if (type >= Enum.GetNames(typeof(CameraType)).Length) type = 0;
+
 		GameData.CurrentCameraType = (CameraType)type;
 	}
 
@@ -43,6 +46,7 @@ public class MainMenuController : MonoBehaviour, IMainMenuController
 	{
 		var type = (int)GameData.CurrentFieldType + 1;
 		if (type >= Enum.GetNames(typeof(FieldType)).Length) type = 0;
+
 		GameData.CurrentFieldType = (FieldType)type;
 	}
 	
@@ -63,9 +67,7 @@ public class MainMenuController : MonoBehaviour, IMainMenuController
 		Debug.Log("FACEBOOK");
 		SocialProvider.ConnectToSocial();
 	}
-
-#endregion
-
+	
 	private void RunSnakes()
 	{
 		for (int i = 0; i < snakeSpriteCount; i++)

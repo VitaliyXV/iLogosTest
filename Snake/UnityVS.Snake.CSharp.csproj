@@ -88,6 +88,7 @@
     <Compile Include="Assets\Game\Scripts\Commands\FacebookCommand.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\FacebookLoggedCommand.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\FieldTypeCommand.cs" />
+    <Compile Include="Assets\Game\Scripts\Commands\GameOverCommand.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\GamePlayStartCommand.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\GameSignals.cs" />
     <Compile Include="Assets\Game\Scripts\Commands\InputPlayerNameCommand.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Assets\Game\Scripts\GameField\SquareFieldGenerator.cs" />
     <Compile Include="Assets\Game\Scripts\GameField\TileObject.cs" />
     <Compile Include="Assets\Game\Scripts\GameObjectControllers\CameraController.cs" />
+    <Compile Include="Assets\Game\Scripts\GameObjectControllers\NextSegmentController.cs" />
     <Compile Include="Assets\Game\Scripts\GameObjectControllers\PlayerController.cs" />
     <Compile Include="Assets\Game\Scripts\GameObjectControllers\SnakeSpriteController.cs" />
     <Compile Include="Assets\Game\Scripts\Model\CameraType.cs" />

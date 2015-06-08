@@ -34,8 +34,10 @@ public class Cell : MonoBehaviour
 			case CellType.Ice: color = Color.white; break;
 		}
 
-		Renderer rend = GetComponent<Renderer>();
-		rend.material.shader = Shader.Find("Specular");
-		rend.material.SetColor("_Color", color);
+		// don't work in builds :(
+
+		//Renderer rend = GetComponent<Renderer>();
+		//rend.material.shader = Shader.Find("Specular");
+		//rend.material.SetColor("_Color", color);
 	}
 }
